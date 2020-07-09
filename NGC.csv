@@ -1,4 +1,4 @@
-Internal ID Number,Name,Common Name,Type,Constellation,V,RAJ2000,DEJ2000
+Internal ID Number,Name,Common Name,Type,Constellation,mag,_RAJ2000,_DEJ2000
 Gal_And_1,IC 5370,,Gal,Andromeda,15.0,0.0253,32.75
 notype_And_2,IC 5371,,-,Andromeda,,0.0503,32.8166
 notype_Cas_3,NGC 7801,,-,Cassiopeia,,0.1004,50.6999
