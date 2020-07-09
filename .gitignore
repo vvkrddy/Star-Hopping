@@ -1,5 +1,6 @@
 # checkpoints folder
 .ipynb_checkpoints/ 
+
 messierObjects.ipynb
 Untitled1.ipynb
 Stereo.ipynb
@@ -17,3 +18,5 @@ NOMAD.csv
 NOMAD_1.csv
 NOMAD_2.csv
 NOMAD_3.csv
+.idea/
+venv/
