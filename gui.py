@@ -17,6 +17,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 root = tk.Tk()
 root.withdraw()
+root.wm_title("Embedding in Tk")
+
+
 
 # ##############################################################################################################################################################
 
@@ -318,6 +321,10 @@ ax.scatter(dup_cb['RAJ2000'], dup_cb['DEJ2000'], color='white', s=0.1, zorder=0)
 # button.on_clicked(reset)
 #
 
+canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
+canvas.draw()
+canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
 count = 1
 #############################################################################################################################################################
 # text box for ra, dec or messier number
@@ -571,5 +578,22 @@ hopbutton.on_clicked(hop)
 # mpld3.show()
 plt.show()
 
+def on_key_press(event):
+    print("you pressed {}".format(event.key))
+    key_press_handler(event, canvas, toolbar)
 
-# root.mainloop()
+
+canvas.mpl_connect("key_press_event", on_key_press)
+
+
+def _quit():
+    root.quit()     # stops mainloop
+    root.destroy()  # this is necessary on Windows to prevent
+                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+
+
+button = tkinter.Button(master=root, text="Quit", command=_quit)
+button.pack(side=tkinter.BOTTOM)
+
+root.mainloop()
+
