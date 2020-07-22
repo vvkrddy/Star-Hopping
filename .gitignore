@@ -2,7 +2,20 @@
 .ipynb_checkpoints/ 
 
 query_program_input.py
+query_program_input.ipynb
 resolver_attempt.py
+helllo.ipynb
+editor_vivek1.py
+
+editor_interface_old.py
+
+hop.pkl
+
+gui (copy).py
+scrap.py
+sniptest.py
+sniptest1.py
+stereographic_projection.py
 
 constellation_borders.csv
 CrossCatalog.csv
@@ -25,4 +38,4 @@ Stereo.ipynb
 
 .idea/
 venv/
-query_program_input.py
+
