@@ -1,2 +1,3 @@
-# Star-Hopping
+# Star Hopping
 
+## Refer to INSTRUCTIONS.md
