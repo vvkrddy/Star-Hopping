@@ -63,8 +63,8 @@ ga_ng = ng[(ng["Type"] == 'Gal')]
 nb_ms = ms[(ms["Type"] == 'PN') | (ms["Type"] == 'RNe') | (ms["Type"] == 'HII') | (ms["Type"] == 'SNR')]
 nb_ng = ng[(ng["Type"] == 'PN') | (ng["Type"] == 'Nb') | (ng["Type"] == 'Kt')]
 # other messiers
-ot_ms = ms[(ms["Type"] == 'HII') | (ms["Type"] == 'As*') | (ms["Type"] == 'LIN') | (ms["Type"] == 'mul') | (
-        ms["Type"] == 'AGN') | (ms["Type"] == 'SNR')]
+ot_ms = ms[(ms["Type"] == 'As*') | (ms["Type"] == 'LIN') | (ms["Type"] == 'mul') | (
+        ms["Type"] == 'AGN')]
 # other ngc; stars
 ot_ng = ng[(ng["Type"] == 'D+?') | (ng["Type"] == 'C+N') | (ng["Type"] == 'Kt') | (
         ng["Type"] == '*?') | (ng["Type"] == 'Ast') | (ng["Type"] == 'Str')]
@@ -89,8 +89,7 @@ dup_nb_ms = dup_ms[
 dup_nb_ng = dup_ng[(dup_ng["Type"] == 'PN') | (dup_ng["Type"] == 'Nb') | (dup_ng["Type"] == 'Kt')]
 # other messiers
 dup_ot_ms = dup_ms[
-    (dup_ms["Type"] == 'HII') | (dup_ms["Type"] == 'As*') | (dup_ms["Type"] == 'LIN') | (dup_ms["Type"] == 'mul') | (
-            dup_ms["Type"] == 'AGN') | (dup_ms["Type"] == 'SNR')]
+    ( (dup_ms["Type"] == 'As*') | (dup_ms["Type"] == 'LIN') | (dup_ms["Type"] == 'mul') | (dup_ms["Type"] == 'AGN')) ]
 # other ngc; stars
 dup_ot_ng = dup_ng[
     (dup_ng["Type"] == 'D+?') | (dup_ng["Type"] == 'C+N') | (dup_ng["Type"] == 'Kt') | (
@@ -156,8 +155,11 @@ ga_ms = ga_ms.reset_index(drop=True)
 nb_ms = nb_ms.reset_index(drop=True)
 ot_ms = ot_ms.reset_index(drop=True)
 
+# ty_names=ty[(ty['Name']!='-')]
+# ty_bayer=ty.dropna(subset=['Bayer'])
 
-# tynames=ty[ty['Name']!='-']
+# full_ty = pd.concat([mag_ty,dup_ty], axis=0)
+# full_ty.reset_index(drop=True)
 
 #############################################################################################################################################################
 
@@ -194,7 +196,7 @@ ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black', zorder=0, 
 
 ts_fact = 250
 s_fact = 250
-# onemessier=10
+onemessier=10
 
 ax.set_xlim([xl, xr])
 ax.set_ylim([yb, yt])
@@ -216,7 +218,6 @@ def chart():
 
     plt.xlabel('Right Ascension (degrees)', fontsize=12)
     plt.ylabel('Declination (degrees)', fontsize=12)
-
 
     lw = 0
     plw = 1
@@ -259,326 +260,266 @@ def chart():
                edgecolor=axbgcl, linewidth=plw, picker=1)
     otms.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(ot_ms['V (from SEDS)'], ot_ms['ID (for resolver)'], ot_ms['Common Name'])]
 
+
+    # docms = ax.scatter(dup_oc_ms['RAJ2000'], dup_oc_ms['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (dup_oc_ms['V (from SEDS)']),
+    #            edgecolor=axbgcl, picker=1, linewidth = lw)
+    # docms.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(oc_ms['V (from SEDS)'], oc_ms['ID (for resolver)'], oc_ms['Common Name'])]
+    # dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
+    #            zorder=2, edgecolor=axbgcl, linewidth=plw)
+    # dgcms.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m,n in zip(gc_ms['V (from SEDS)'], gc_ms['ID (for resolver)'], gc_ms['Common Name'])]
+    # dgcms1 = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
+    #            edgecolor="grey",  linewidth=lw, picker=1)
+    # dgcms1.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(gc_ms['V (from SEDS)'], gc_ms['ID (for resolver)'], gc_ms['Common Name'])]
+    # dgams = ax.scatter(dup_ga_ms['RAJ2000'], dup_ga_ms['DEJ2000'], color='red', marker=ell, s=s_fact / 2.5 ** (dup_ga_ms['V (from SEDS)']),
+    #            picker=1, linewidth = lw, edgecolor=axbgcl)
+    # dgams.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(ga_ms['V (from SEDS)'], ga_ms['ID (for resolver)'], ga_ms['Common Name'])]
+    # dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='green', marker="o", s=s_fact / 2.5 ** (dup_nb_ms['V (from SEDS)']),
+    #            edgecolor=axbgcl, zorder=2, picker=1, linewidth = lw)
+    # dnbms.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(nb_ms['V (from SEDS)'], nb_ms['ID (for resolver)'], nb_ms['Common Name'])]
+    # dnbms1 = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='black', marker="+",
+    #            s=s_fact * 10 / 2.5 ** (dup_nb_ms['V (from SEDS)']), edgecolor=axbgcl, linewidth=plw, picker=1)
+    # dnbms1.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(nb_ms['V (from SEDS)'], nb_ms['ID (for resolver)'], nb_ms['Common Name'])]
+    # dotms = ax.scatter(dup_ot_ms['RAJ2000'], dup_ot_ms['DEJ2000'], c='purple', marker="+",
+    #            s=s_fact / 2.5 ** (dup_ot_ms['V (from SEDS)']),
+    #            edgecolor=axbgcl, linewidth=plw, picker=1)
+    # dotms.annotation_names = [f'{m}\nV:{v}\n{n}' for v, m, n in zip(ot_ms['V (from SEDS)'], ot_ms['ID (for resolver)'], ot_ms['Common Name'])]
+
+
     tys = ax.scatter(mag_ty['RAJ2000'], mag_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (mag_ty['V']), edgecolor=axbgcl,
                     linewidth=1 / 10)
     tys.annotation_names = [f'{n}, {b}\nV:{v}, {c}' for v,c, n, b in zip(ty['V'], ty['Constellation'], ty['Name'], ty['Bayer'])]
-    dtys = ax.scatter(dup_ty['RAJ2000'], dup_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (dup_ty['V']),
-                     edgecolor=axbgcl,
-                     linewidth=1 / 10)
-    dtys.annotation_names = [f'{n}, {b}\nV:{v}, {c}' for v,c, n, b in zip(dup_ty['V'], dup_ty['Constellation'], dup_ty['Name'], dup_ty['Bayer'])]
 
-    # label on hover
-    cursor = mplcursors.cursor([ocms, gcms,gcms1, gams, nbms,nbms1, otms, tys, dtys], hover=True)
-    cursor.connect("add", lambda sel: sel.annotation.set_text(sel.artist.annotation_names[sel.target.index]))
+    # tys = ax.scatter(full_ty['RAJ2000'], full_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (full_ty['V']), edgecolor=axbgcl,
+    #                 linewidth=1 / 10)
+    # tys.annotation_names = [f'{n}, {b}\nV:{v}, {c}' for v,c, n, b in zip(ty['V'], full_ty['Constellation'], full_ty['Name'], full_ty['Bayer'])]
 
-    # # plt.legend([red_dot, (red_dot, white_cross)], ["Attr A", "Attr A+B"])
-    # lgnd= plt.legend([ocms,(gcms, gcms1),(nbms, nbms1), otms, tys ], [" Open Cluster", "Globular Cluster", "Nebula", "Other Messier", "Tycho-1 Stars"])
+    # # # plt.legend([red_dot, (red_dot, white_cross)], ["Attr A", "Attr A+B"])
+    # lgnd= plt.legend([ocms,(gcms, gcms1),(nbms, nbms1), otms, tys ], [" Open Cluster", "Globular Cluster", "Nebula", "Other Messier", "Tycho-1 Stars"],labelspacing=5, ncol=5, borderpad=.5, loc='lower center', bbox_to_anchor=(.5,1))
     # lgnd.legendHandles[0]._sizes = [30]
     # lgnd.legendHandles[1]._sizes = [300]
     # lgnd.legendHandles[2]._sizes = [300]
     # lgnd.legendHandles[3]._sizes = [30]
     # lgnd.legendHandles[4]._sizes = [30]
 
-
-    # docms = ax.scatter(dup_oc_ms['RAJ2000'], dup_oc_ms['DEJ2000'], color='yellow', marker="o",
-    #            s=s_fact / 2.5 ** (dup_oc_ms['V (from SEDS)']), edgecolor=axbgcl, picker=1, linewidth = lw)
-    # dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='black', marker="+",
-    #            s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
-    #            zorder=2, edgecolor=axbgcl, linewidth=plw, picker=1)
-    # dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='yellow', marker="o",
-    #            s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']), edgecolor="grey", linewidth=lw, picker=1)
-    # dgams = ax.scatter(dup_ga_ms['RAJ2000'], dup_ga_ms['DEJ2000'], color='red', marker=ell,
-    #            s=s_fact / 2.5 ** (dup_ga_ms['V (from SEDS)']), linewidth = lw,
-    #            picker=1)
-    # dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='green', marker="o",
-    #            s=s_fact / 2.5 ** (dup_nb_ms['V (from SEDS)']),edgecolor=axbgcl,
-    #            zorder=2, picker=1, linewidth = lw)
-    # dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='black', marker="+",
-    #            s=s_fact * 10 / 2.5 ** (dup_nb_ms['V (from SEDS)']), edgecolor=axbgcl,
-    #            picker=1, linewidth =  plw)
-    # dotms = ax.scatter(dup_ot_ms['RAJ2000'], dup_ot_ms['DEJ2000'], c='purple', marker="+",
-    #            s=s_fact / 2.5 ** (dup_ot_ms['V (from SEDS)']), edgecolor=axbgcl, linewidth=plw,picker=1)
-
-
-    # ocms = ax.scatter(oc_ms['RAJ2000'], oc_ms['DEJ2000'], color='yellow', marker="x", s=onemessier,
-    #           picker=1)
-    # # ocms.annotation_names = oc_ms['ID (for resolver)'] + ',' + oc_ms['Constellation']
-    # gcms = ax.scatter(gc_ms['RAJ2000'], gc_ms['DEJ2000'], color='blue', marker="x", s=onemessier,picker=1)
-    # # gcms.annotation_names = gc_ms['ID (for resolver)'] + ',' + gc_ms['Constellation']
-    # gams = ax.scatter(ga_ms['RAJ2000'], ga_ms['DEJ2000'], color='purple', marker="x", s=onemessier,
-    #            picker=1)
-    # # gams.annotation_names = ga_ms['ID (for resolver)'] + ',' + ga_ms['Constellation']
-    # nbms = ax.scatter(nb_ms['RAJ2000'], nb_ms['DEJ2000'], color='red', marker="x",
-    #            s=onemessier, picker=1)
-    # # nbms.annotation_names = nb_ms['ID (for resolver)'] + ',' + nb_ms['Constellation']
-    # otms = ax.scatter(ot_ms['RAJ2000'], ot_ms['DEJ2000'], c='black', marker="x",
-    #            s=onemessier,picker=1)
-    # otms.annotation_names = ot_ms['ID (for resolver)'] + ',' + ot_ms['Constellation']
-
-
-#############################################################################################################################################################
+    cursor = mplcursors.cursor([ocms, gcms, gcms1, gams, nbms, nbms1, otms, tys], hover=True)
+    # cursor = mplcursors.cursor([ocms, gcms, gcms1, gams, nbms, nbms1, otms, docms, dgcms, dgcms1, dgams, dnbms, dnbms1, dotms, tys], hover=True)
+    cursor.connect("add", lambda sel: sel.annotation.set_text(sel.artist.annotation_names[sel.target.index]))
 
     # plt.savefig('6', dpi=400, format="png")
 
-
-    # m=np.arange(1,20,1)
-    # x=np.ones(19)*150
-    # y=np.zeros(19)recommended f
-    # ax.scatter(x,y,s=10000/2.5**m[::-1], edgecolor=axbgcl)
-
-    # ax.scatter([0],[0],s=ts_fact / 2.5 ** 1)
-
-
-    # ocng = ax.scatter(oc_ng['RAJ2000'], oc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (oc_ng['V']), zorder=2,
-    #            edgecolor=axbgcl)
-    # gcng = ax.scatter(gc_ng['RAJ2000'], gc_ng['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (gc_ng['V']), zorder=3,
-    #            edgecolor=axbgcl)
-    # gcng = ax.scatter(gc_ng['RAJ2000'], gc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (gc_ng['V']), zorder=2,
-    #            edgecolor="grey")
-    # gang = ax.scatter(ga_ng['RAJ2000'], ga_ng['DEJ2000'], color='red', marker=ell, s=s_fact / 2.5 ** (ga_ng['V']), zorder=2)
-    # nbng = ax.scatter(nb_ng['RAJ2000'], nb_ng['DEJ2000'], color='green', marker="o", s=s_fact / 2.5 ** (nb_ng['V']), zorder=3, edgecolor=axbgcl)
-    # nbng = ax.scatter(nb_ng['RAJ2000'], nb_ng['DEJ2000'], color='black', marker="+", s=s_fact * 10 / 2.5 ** (nb_ng['V']), zorder=2)
-    # otng = ax.scatter(ot_ng['RAJ2000'], ot_ng['DEJ2000'], c='blue', marker="+",
-    #            edgecolor=axbgcl)
-    #
-    #
-    #
-    # docng = ax.scatter(dup_oc_ng['RAJ2000'], dup_oc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (dup_oc_ng['V']),
-    #            zorder=2, edgecolor=axbgcl)
-    # dgcng = ax.scatter(dup_gc_ng['RAJ2000'], dup_gc_ng['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (dup_gc_ng['V']),
-    #            zorder=3, edgecolor=axbgcl)
-    # dgcng = ax.scatter(dup_gc_ng['RAJ2000'], dup_gc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (dup_gc_ng['V']),
-    #            zorder=2, edgecolor="grey")
-    # dgang = ax.scatter(dup_ga_ng['RAJ2000'], dup_ga_ng['DEJ2000'], color='red', marker=ell,   s=s_fact / 2.5 ** (dup_ga_ng['V']))
-    # dnbng = ax.scatter(dup_nb_ng['RAJ2000'], dup_nb_ng['DEJ2000'], color='green', marker="o", s=s_fact / 2.5 ** (dup_nb_ng['V']),
-    #            zorder=3, edgecolor=axbgcl)
-    # dnbng = ax.scatter(dup_nb_ng['RAJ2000'], dup_nb_ng['DEJ2000'], color='black', marker="+", s=s_fact * 10 / 2.5 ** (dup_nb_ng['V']),
-    #            zorder=2, edgecolor=axbgcl)
-    # dotng = ax.scatter(dup_ot_ng['RAJ2000'], dup_ot_ng['DEJ2000'], c='blue', marker="+", edgecolor=axbgcl,
-    #            s=s_fact / 2.5 ** (dup_ot_ng['V']))
-    # ocms = ax.scatter(oc_ms['RAJ2000'], oc_ms['DEJ2000'], color='yellow', marker="+", s=s_fact / 2.5 ** (oc_ms['V (from SEDS)']),
-    #            zorder=2,
-    #            edgecolor=axbgcl, picker=1)
-    # gcms = ax.scatter(gc_ms['RAJ2000'], gc_ms['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (gc_ms['V (from SEDS)']),
-    #            zorder=3, edgecolor=axbgcl, linewidth=1,picker=1)
-    # gcms = ax.scatter(gc_ms['RAJ2000'], gc_ms['DEJ2000'], color='yellow', marker="+", s=s_fact / 2.5 ** (gc_ms['V (from SEDS)']),
-    #            zorder=2,
-    #            edgecolor="grey",  linewidth=1, picker=1)
-    # gams = ax.scatter(ga_ms['RAJ2000'], ga_ms['DEJ2000'], color='red', marker=ell, s=s_fact / 2.5 ** (ga_ms['V (from SEDS)']),
-    #            zorder=2, picker=1)
-    # nbms = ax.scatter(nb_ms['RAJ2000'], nb_ms['DEJ2000'], color='green', marker="+", s=s_fact / 2.5 ** (nb_ms['V (from SEDS)']),
-    #            edgecolor=axbgcl, zorder=3, picker=1)
-    # nbms = ax.scatter(nb_ms['RAJ2000'], nb_ms['DEJ2000'], color='black', marker="+",
-    #            s=s_fact * 10 / 2.5 ** (nb_ms['V (from SEDS)']), edgecolor=axbgcl, linewidth=1, zorder=2, picker=1)
-    # otms = ax.scatter(ot_ms['RAJ2000'], ot_ms['DEJ2000'], c='purple', marker="+",
-    #            s=s_fact / 2.5 ** (ot_ms['V (from SEDS)']),
-    #            edgecolor=axbgcl, linewidth=1, picker=1)
-    #
-    #
-    #
-    # docms = ax.scatter(dup_oc_ms['RAJ2000'], dup_oc_ms['DEJ2000'], color='yellow', marker="+",
-    #            s=s_fact / 2.5 ** (dup_oc_ms['V (from SEDS)']),
-    #            zorder=2, edgecolor=axbgcl, picker=1)
-    # dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='black', marker="+",
-    #            s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
-    #            zorder=3, edgecolor=axbgcl, linewidth=1, picker=1)
-    # dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='yellow', marker="+",
-    #            s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
-    #            zorder=2, edgecolor="grey", linewidth=1, picker=1)
-    # dgams = ax.scatter(dup_ga_ms['RAJ2000'], dup_ga_ms['DEJ2000'], color='red', marker="+",
-    #            s=s_fact / 2.5 ** (dup_ga_ms['V (from SEDS)']),
-    #            zorder=2, picker=1)
-    # dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='green', marker="+",
-    #            s=s_fact / 2.5 ** (dup_nb_ms['V (from SEDS)']),edgecolor=axbgcl,
-    #            zorder=3, picker=1)
-    # dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='black', marker="+",
-    #            s=s_fact * 10 / 2.5 ** (dup_nb_ms['V (from SEDS)']), edgecolor=axbgcl, linewidth=1,
-    #            zorder=2, picker=1)
-    # dotms = ax.scatter(dup_ot_ms['RAJ2000'], dup_ot_ms['DEJ2000'], c='purple', marker="+",
-    #            s=s_fact / 2.5 ** (dup_ot_ms['V (from SEDS)']), edgecolor=axbgcl, linewidth=1,picker=1)
-    #
-    #
-    #
-    # ocng = ax.scatter(oc_ng['RAJ2000'], oc_ng['DEJ2000'], color='yellow', marker="+", s=s_fact / 2.5 ** (oc_ng['V']), zorder=2,
-    #            edgecolor=axbgcl)
-    # gcng = ax.scatter(gc_ng['RAJ2000'], gc_ng['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (gc_ng['V']), zorder=3,
-    #            edgecolor=axbgcl, linewidth=1)
-    # gcng = ax.scatter(gc_ng['RAJ2000'], gc_ng['DEJ2000'], color='yellow', marker="+", s=s_fact / 2.5 ** (gc_ng['V']), zorder=2,
-    #            edgecolor="grey")
-    # gang = ax.scatter(ga_ng['RAJ2000'], ga_ng['DEJ2000'], color='red', marker="+", s=s_fact / 2.5 ** (ga_ng['V']), zorder=2)
-    # nbng = ax.scatter(nb_ng['RAJ2000'], nb_ng['DEJ2000'], color='green', marker="+", s=s_fact / 2.5 ** (nb_ng['V']), zorder=3, edgecolor=axbgcl)
-    # nbng = ax.scatter(nb_ng['RAJ2000'], nb_ng['DEJ2000'], color='black', marker="+", s=s_fact * 10 / 2.5 ** (nb_ng['V']), zorder=2, linewidth=1)
-    # otng = ax.scatter(ot_ng['RAJ2000'], ot_ng['DEJ2000'], c='blue', marker="+", linewidth=1, s=s_fact / 2.5 ** (ot_ng['V']),
-    #            edgecolor=axbgcl)
-    #
-    #
-    #
-    # docng = ax.scatter(dup_oc_ng['RAJ2000'], dup_oc_ng['DEJ2000'], color='yellow', marker="+", s=s_fact / 2.5 ** (dup_oc_ng['V']),
-    #            zorder=2, edgecolor=axbgcl)
-    # dgcng = ax.scatter(dup_gc_ng['RAJ2000'], dup_gc_ng['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (dup_gc_ng['V']),
-    #            zorder=3, edgecolor=axbgcl, linewidth=1)
-    # dgcng = ax.scatter(dup_gc_ng['RAJ2000'], dup_gc_ng['DEJ2000'], color='yellow', marker="+", s=s_fact / 2.5 ** (dup_gc_ng['V']),
-    #            zorder=2, edgecolor="grey")
-    # dgang = ax.scatter(dup_ga_ng['RAJ2000'], dup_ga_ng['DEJ2000'], color='red', marker="+",   s=s_fact / 2.5 ** (dup_ga_ng['V']))
-    # dnbng = ax.scatter(dup_nb_ng['RAJ2000'], dup_nb_ng['DEJ2000'], color='green', marker="+", s=s_fact / 2.5 ** (dup_nb_ng['V']),
-    #            zorder=3, edgecolor=axbgcl)
-    # dnbng = ax.scatter(dup_nb_ng['RAJ2000'], dup_nb_ng['DEJ2000'], color='black', marker="+", s=s_fact * 10 / 2.5 ** (dup_nb_ng['V']),
-    #            zorder=2, linewidth=1, edgecolor=axbgcl)
-    # dotng = ax.scatter(dup_ot_ng['RAJ2000'], dup_ot_ng['DEJ2000'], c='blue', marker="+", edgecolor=axbgcl, linewidth=1,
-    #            s=s_fact / 2.5 ** (dup_ot_ng['V']))
-
 chart()
 
-
-
-# ts_fact = 100
-# s_fact = 10000
-# #
-# ax.set_xlim([xl, xr])
-# ax.set_ylim([yb, yt])
-#
-# ocms = ax.scatter(oc_ms['RAJ2000'], oc_ms['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (oc_ms['V (from SEDS)']),
-#            zorder=2,
-#            edgecolor="grey", picker=1)
-# gcms = ax.scatter(gc_ms['RAJ2000'], gc_ms['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (gc_ms['V (from SEDS)']),
-#            zorder=3, edgecolor="grey", linewidth=1,picker=1)
-# gcms = ax.scatter(gc_ms['RAJ2000'], gc_ms['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (gc_ms['V (from SEDS)']),
-#            zorder=2,
-#            edgecolor="grey",  linewidth=1, picker=1)
-# gams = ax.scatter(ga_ms['RAJ2000'], ga_ms['DEJ2000'], color='red', marker=ell, s=s_fact / 2.5 ** (ga_ms['V (from SEDS)']),
-#            zorder=2, edgecolor="grey",  picker=1)
-# nbms = ax.scatter(nb_ms['RAJ2000'], nb_ms['DEJ2000'], color='green', marker="o", s=s_fact / 2.5 ** (nb_ms['V (from SEDS)']),
-#            edgecolor="grey", zorder=3, picker=1)
-# nbms = ax.scatter(nb_ms['RAJ2000'], nb_ms['DEJ2000'], color='black', marker="+",
-#            s=s_fact * 10 / 2.5 ** (nb_ms['V (from SEDS)']), edgecolor="grey", linewidth=1, zorder=2, picker=1)
-# otms = ax.scatter(ot_ms['RAJ2000'], ot_ms['DEJ2000'], c='purple', marker="+",
-#            s=s_fact / 2.5 ** (ot_ms['V (from SEDS)']),
-#            edgecolor="grey", linewidth=1, picker=1)
-# docms = ax.scatter(dup_oc_ms['RAJ2000'], dup_oc_ms['DEJ2000'], color='yellow', marker="o",
-#            s=s_fact / 2.5 ** (dup_oc_ms['V (from SEDS)']),
-#            zorder=2, edgecolor="grey", picker=1)
-# dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='black', marker="+",
-#            s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
-#            zorder=3, edgecolor="grey", linewidth=1, picker=1)
-# dgcms = ax.scatter(dup_gc_ms['RAJ2000'], dup_gc_ms['DEJ2000'], color='yellow', marker="o",
-#            s=s_fact / 2.5 ** (dup_gc_ms['V (from SEDS)']),
-#            zorder=2, edgecolor="grey", linewidth=1, picker=1)
-# dgams = ax.scatter(dup_ga_ms['RAJ2000'], dup_ga_ms['DEJ2000'], color='red', marker=ell,
-#            s=s_fact / 2.5 ** (dup_ga_ms['V (from SEDS)']),
-#            zorder=2,edgecolor="grey",  picker=1)
-# dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='green', marker="o",
-#            s=s_fact / 2.5 ** (dup_nb_ms['V (from SEDS)']),edgecolor="grey",
-#            zorder=3, picker=1)
-# dnbms = ax.scatter(dup_nb_ms['RAJ2000'], dup_nb_ms['DEJ2000'], color='black', marker="+",
-#            s=s_fact * 10 / 2.5 ** (dup_nb_ms['V (from SEDS)']), edgecolor="grey", linewidth=1,
-#            zorder=2, picker=1)
-# dotms = ax.scatter(dup_ot_ms['RAJ2000'], dup_ot_ms['DEJ2000'], c='purple', marker="+",
-#            s=s_fact / 2.5 ** (dup_ot_ms['V (from SEDS)']), edgecolor="grey", linewidth=1,picker=1)
-#
-# ocng = ax.scatter(oc_ng['RAJ2000'], oc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (oc_ng['V']), zorder=2,
-#            edgecolor="grey")
-# gcng = ax.scatter(gc_ng['RAJ2000'], gc_ng['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (gc_ng['V']), zorder=3,
-#            edgecolor="grey", linewidth=1)
-# gcng = ax.scatter(gc_ng['RAJ2000'], gc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (gc_ng['V']), zorder=2,
-#            edgecolor="grey")
-# gang = ax.scatter(ga_ng['RAJ2000'], ga_ng['DEJ2000'], color='red', marker=ell, s=s_fact / 2.5 ** (ga_ng['V']), zorder=2)
-# nbng = ax.scatter(nb_ng['RAJ2000'], nb_ng['DEJ2000'], color='green', marker="o", s=s_fact / 2.5 ** (nb_ng['V']), zorder=3, edgecolor="grey")
-# nbng = ax.scatter(nb_ng['RAJ2000'], nb_ng['DEJ2000'], color='black', marker="+", s=s_fact * 10 / 2.5 ** (nb_ng['V']), zorder=2, linewidth=1)
-# otng = ax.scatter(ot_ng['RAJ2000'], ot_ng['DEJ2000'], c='blue', marker="+", linewidth=1, s=s_fact / 2.5 ** (ot_ng['V']),
-#            edgecolor="grey")
-# docng = ax.scatter(dup_oc_ng['RAJ2000'], dup_oc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (dup_oc_ng['V']),
-#            zorder=2, edgecolor="grey")
-# dgcng = ax.scatter(dup_gc_ng['RAJ2000'], dup_gc_ng['DEJ2000'], color='black', marker="+", s=s_fact / 2.5 ** (dup_gc_ng['V']),
-#            zorder=3, edgecolor="grey", linewidth=1)
-# dgcng = ax.scatter(dup_gc_ng['RAJ2000'], dup_gc_ng['DEJ2000'], color='yellow', marker="o", s=s_fact / 2.5 ** (dup_gc_ng['V']),
-#            zorder=2, edgecolor="grey")
-# dgang = ax.scatter(dup_ga_ng['RAJ2000'], dup_ga_ng['DEJ2000'], color='red', marker=ell,   s=s_fact / 2.5 ** (dup_ga_ng['V']))
-# dnbng = ax.scatter(dup_nb_ng['RAJ2000'], dup_nb_ng['DEJ2000'], color='green', marker="o", s=s_fact / 2.5 ** (dup_nb_ng['V']),
-#            zorder=3, edgecolor="grey")
-# dnbng = ax.scatter(dup_nb_ng['RAJ2000'], dup_nb_ng['DEJ2000'], color='black', marker="+", s=s_fact * 10 / 2.5 ** (dup_nb_ng['V']),
-#            zorder=2, linewidth=1)
-# dotng = ax.scatter(dup_ot_ng['RAJ2000'], dup_ot_ng['DEJ2000'], c='blue', marker="+", edgecolor="grey", linewidth=1,
-#            s=s_fact / 2.5 ** (dup_ot_ng['V']))
-#
-# ty = ax.scatter(mag_ty['RAJ2000'], mag_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (mag_ty['V']), edgecolor="grey",
-#                 linewidth=1/10)
-# dty = ax.scatter(dup_ty['RAJ2000'], dup_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (dup_ty['V']), edgecolor="grey",
-#                 linewidth=1/10)
-# ax.scatter(cb['RAJ2000'], cb['DEJ2000'], color='white', s=0.1, zorder=0)
-# ax.scatter(dup_cb['RAJ2000'], dup_cb['DEJ2000'], color='white', s=0.1, zorder=0)
-
 #############################################################################################################################################################
-
-#############################################################################################################################################################
-
 
 def resetchart():
+    global s_fact
+    s_fact = 250
     plt.cla()
+    global xl
+    global xr
+    global yb
+    global yt
+    xr = 290 + 70
+    xl = 0
+    yb = -90
+    yt = 90
     ax.set_xlim([xl, xr])
     ax.set_ylim([yb, yt])
     chart()
     plt.draw()
     object_entry.delete(0, END)
 
+def on_xlims_change(event_ax):
+    print("updated xlims: ", event_ax.get_xlim())
+    global xl
+    global xr
+    xl=event_ax.get_xlim()[0]
+    xr=event_ax.get_xlim()[0]
+def on_ylims_change(event_ax):
+    print("updated ylims: ", event_ax.get_ylim())
+    global yb
+    global yt
+    yb=event_ax.get_ylim()[0]
+    yt=event_ax.get_ylim()[1]
+
+ax.callbacks.connect('xlim_changed', on_xlims_change)
+ax.callbacks.connect('ylim_changed', on_ylims_change)
+
+ident = np.array(ms['ID (for resolver)'])
+name = np.array(ms['Common Name'])
+
 def submit():
-    text = object_entry.get()
-    lst = text.split()
-    print(lst)
+    inp = object_entry.get()
+    inp2 = inp.split()
 
-    if len(lst) == 3 and float(lst[0]) >= 0 and float(lst[0]) < 360 and float(lst[1]) >= -90 and float(lst[1]) <= 90:
-        ra = int(lst[0])
-        dec = int(lst[1])
-        fov = int(lst[2])
-        # ra1 = ra
-        # dec1 = dec
-        # fov1 = fov
-        # circ = plt.Circle((ra1, dec1), fov1 / 2, color='#00af08', zorder=-1, alpha=0.1)
-        # circ.remove()
 
-        xl = ra - fov / 2 - fov / 10
-        xr = ra + fov / 2 + fov / 10
-        yb = dec - fov / 2 - fov / 10
-        yt = dec + fov / 2 + fov / 10
+    if all([x.isalpha() for x in inp2]):
+        inp = inp.title()
+        find_res = np.array([x.find(inp) for x in name])
+        pos = np.where(find_res != -1)[0]
+        if len(pos) == 0:
+            mb.showwarning('alert', 'Enter:\nRA DEC FoV\nOR\nName')
+            return None
+        rax, decx = ms['RAJ2000'][pos].values, ms['DEJ2000'][pos].values
+        if len(name[pos]) > 1:
+            mb.showinfo('Try again ', 'More than one object matching')
+        else:
+            ra = rax[0]
+            dec = decx[0]
+            fov = 20
+            xl = ra - fov / 2 - fov / 10
+            xr = ra + fov / 2 + fov / 10
+            yb = dec - fov / 2 - fov / 10
+            yt = dec + fov / 2 + fov / 10
+            plt.cla()
+            ax.set_xlim([xl, xr])
+            ax.set_ylim([yb, yt])
+            chart()
+            plt.draw()
+            object_entry.delete(0, END)
+            object_entry.insert(0, name[pos][0])
+            mb.showinfo('Processed')
 
-        if xr > 360:
-            ra -= 360
-            xr -= 360
-            xl -= 360
-        plt.cla()
-        ax.set_xlim([xl, xr])
-        ax.set_ylim([yb, yt])
-        # circ = plt.Circle((ra, dec), fov / 2, color='#00af08', zorder=-1, alpha=0.1)
-        # print(circ)
-        # ax.add_artist(circ)
-        chart()
-        plt.draw()
-        mb.showinfo('Processed')
+    elif all([x.isalnum() for x in inp2]):
+        if len(inp2)==3:
+            ra = float(inp2[0])
+            dec = float(inp2[1])
+            fov = float(inp2[2])
+            xl = ra - fov / 2 - fov / 10
+            xr = ra + fov / 2 + fov / 10
+            yb = dec - fov / 2 - fov / 10
+            yt = dec + fov / 2 + fov / 10
+            plt.cla()
+            ax.set_xlim([xl, xr])
+            ax.set_ylim([yb, yt])
+            chart()
+            plt.draw()
+            mb.showinfo('Processed')
+        else:
+            inp = inp.title()
+            inp = re.split('(\d+)', inp)
+            print(inp)
+            inp[0] = inp[0].rstrip()
+            inp = inp[:2]
+            inp = ' '.join(inp)
+            find_res = np.array([x.find(inp) for x in ident])
+            pos = np.where(find_res != -1)[0]
+            if len(pos) == 0:
+                mb.showinfo('Try again ', 'More than one object matching')
+            else:
+                rax, decx = ms['RAJ2000'][pos].values, ms['DEJ2000'][pos].values
+                ra = rax[0]
+                dec = decx[0]
+                fov = 20
+                xl = ra - fov / 2 - fov / 10
+                xr = ra + fov / 2 + fov / 10
+                yb = dec - fov / 2 - fov / 10
+                yt = dec + fov / 2 + fov / 10
+                plt.cla()
+                ax.set_xlim([xl, xr])
+                ax.set_ylim([yb, yt])
+                chart()
+                plt.draw()
+                object_entry.delete(0, END)
+                object_entry.insert(0, ident[pos][0])
 
-    elif len(lst) == 2 and int(lst[0]) > 0 and int(lst[0]) <= 110 and int(lst[1]) > 0:
-        num = int(lst[0])
-        fov = float(lst[1])
-        ra = float(ms.iloc[[num - 1]]['RAJ2000'])
-        dec = float(ms.iloc[[num - 1]]['DEJ2000'])
-        xl = ra - fov / 2 - fov / 10
-        xr = ra + fov / 2 + fov / 10
-        yb = dec - fov / 2 - fov / 10
-        yt = dec + fov / 2 + fov / 10
-
-        if xr > 360:
-            ra -= 360
-            xr -= 360
-            xl -= 360
-
-        plt.cla()
-        ax.set_xlim([xl, xr])
-        ax.set_ylim([yb, yt])
-        # ax.add_artist(plt.Circle((ra, dec), fov / 2, color='#00af08', zorder=-1, alpha=0.1))
-        chart()
-        plt.draw()
-        mb.showwarning('Processed', "Press ok to close")
+                mb.showinfo('Processed')
     else:
         mb.showwarning('alert', 'Enter in degrees:\nRA DEC FoV\nOR\nmessierNumber FoV')
 
+    # if len(lst) == 3 and float(lst[0]) >= 0 and float(lst[0]) < 360 and float(lst[1]) >= -90 and float(lst[1]) <= 90:
+    #     ra = int(lst[0])
+    #     dec = int(lst[1])
+    #     fov = int(lst[2])
+    #     # ra1 = ra
+    #     # dec1 = dec
+    #     # fov1 = fov
+    #     # circ = plt.Circle((ra1, dec1), fov1 / 2, color='#00af08', zorder=-1, alpha=0.1)
+    #     # circ.remove()
+
+        # xl = ra - fov / 2 - fov / 10
+        # xr = ra + fov / 2 + fov / 10
+        # yb = dec - fov / 2 - fov / 10
+        # yt = dec + fov / 2 + fov / 10
+    #
+    #     # if xr > 360:
+    #     #     xr = 360
+    #     #     ra -= 360
+    #     #     xr -= 360
+    #     #     xl -= 360
+    #     plt.cla()
+    #     ax.set_xlim([xl, xr])
+    #     ax.set_ylim([yb, yt])
+    #     # circ = plt.Circle((ra, dec), fov / 2, color='#00af08', zorder=-1, alpha=0.1)
+    #     # print(circ)
+    #     # ax.add_artist(circ)
+    #     chart()
+    #     plt.draw()
+    #     mb.showinfo('Processed')
+    #
+    # elif len(lst) == 2 and int(lst[0]) > 0 and int(lst[0]) <= 110 and int(lst[1]) > 0:
+    #     num = int(lst[0])
+    #     fov = float(lst[1])
+    #     ra = float(ms.iloc[[num - 1]]['RAJ2000'])
+    #     dec = float(ms.iloc[[num - 1]]['DEJ2000'])
+    #     xl = ra - fov / 2 - fov / 10
+    #     xr = ra + fov / 2 + fov / 10
+    #     yb = dec - fov / 2 - fov / 10
+    #     yt = dec + fov / 2 + fov / 10
+    #
+    #     if xr > 360:
+    #         ra -= 360
+    #         xr -= 360
+    #         xl -= 360
+    #
+    #     plt.cla()
+    #     ax.set_xlim([xl, xr])
+    #     ax.set_ylim([yb, yt])
+    #     # ax.add_artist(plt.Circle((ra, dec), fov / 2, color='#00af08', zorder=-1, alpha=0.1))
+    #     chart()
+    #     plt.draw()
+    #     mb.showwarning('Processed', "Press ok to close")
+    # else:
+    #     mb.showwarning('alert', 'Enter in degrees:\nRA DEC FoV\nOR\nmessierNumber FoV')
+
+def misize():
+    global s_fact
+    global xl
+    global xr
+    global yb
+    global yt
+    xl = ax.get_xlim()[0]
+    xr = ax.get_xlim()[1]
+    yb = ax.get_ylim()[0]
+    yt = ax.get_ylim()[1]
+    plt.cla()
+    print(xl,xr,yb,yt)
+    ax.set_xlim([xl, xr])
+    ax.set_ylim([yb, yt])
+    s_fact *= 4
+    chart()
+    plt.draw()
+
+def mdsize():
+    global s_fact
+    global xl
+    global xr
+    global yb
+    global yt
+    xl = ax.get_xlim()[0]
+    xr = ax.get_xlim()[1]
+    yb = ax.get_ylim()[0]
+    yt = ax.get_ylim()[1]
+    plt.cla()
+    print(xl,xr,yb,yt)
+    ax.set_xlim([xl, xr])
+    ax.set_ylim([yb, yt])
+    if s_fact>250:
+        s_fact /= 4
+    else:
+        s_fact = 250
+    chart()
+    plt.draw()
 
 #############################################################################################################################################################
 
@@ -589,14 +530,19 @@ try:
 except:
     d={}
 
-print(d)
+def showhop():
+    nl=[]
+    for k,v in d.items():
+        if not v == []:
+            nl.append(k)
+    mb.showwarning('Hops created for', nl)
 
-count = 1
+print(d)
 
 tyx=np.array(ty['RAJ2000'])
 tyy=np.array(ty['DEJ2000'])
-# dtyx=np.array(dup_ty['RAJ2000'])
-# dtyy=np.array(dup_ty['DEJ2000'])
+# tyx=np.array(full_ty['RAJ2000'])
+# tyy=np.array(full_ty['DEJ2000'])
 
 tree = spatial.KDTree(list(zip(tyx,tyy)))
 
@@ -604,7 +550,6 @@ l=[]
 
 dict_label = Label (mainframe, text ="--<Current Hops Displayed Here>--")
 dict_label.pack(side=TOP,padx=0, pady=5)
-
 
 # dict_label.attributes('-topmost', 'true')
 #
@@ -625,21 +570,18 @@ dict_label.pack(side=TOP,padx=0, pady=5)
 # fig.canvas.mpl_connect('key_press_event', on_key_press)
 # fig.canvas.mpl_connect('key_release_event', on_key_release)
 
-
-
-
 def onclick(event):
     # global shift_is_held
     # if shift_is_held:
     if event.button == 1:
         global d
         global l
-        global count
         xin, yin = event.xdata, event.ydata
         print(xin,yin)
 
         points = np.array([xin,yin])
         dist,ind = tree.query(points, k=10)
+        print(dist, ind)
         # print()
         # print([ty['V'][ind].idxmin()])
         # print(ind, ty['RAJ2000'][int([ty['V'][ind].idxmin()][0])])
@@ -647,6 +589,10 @@ def onclick(event):
 
         objra = ty['RAJ2000'][int([ty['V'][ind].idxmin()][0])]
         objde = ty['DEJ2000'][int([ty['V'][ind].idxmin()][0])]
+        # objra = full_ty['RAJ2000'][int([full_ty['V'][ind].idxmin()][0])]
+        # objde = full_ty['DEJ2000'][int([full_ty['V'][ind].idxmin()][0])]
+
+
         # markerobj = ax.scatter([objra],[objde], c='black', s=10000, marker='+')
         # plt.draw()
         # if hopobj in d.keys():
@@ -666,12 +612,11 @@ def onclick(event):
             print("Hop started:")
         # d[ms[(ms['RAJ2000'])==l[0]]['ID (for resolver)']].append([xi,yi])
 
-        print(d)
+        print(l)
 
         global dict_label
         # dict_label.destroy()
         dict_label.configure(text = "Hops for '{}' :{}".format(hopobj, d[hopobj]))
-
 
 # cid = fig.canvas.mpl_connect('button_press_event', onclick)
 
@@ -684,14 +629,19 @@ def hopstart():
     global hopobj
     global cid
 
+    l=[]
+    print(l)
+
     if hop_btn['text'] == "CREATE HOP":
         print("ehlp")
 
-        hop_btn.configure(text="FINISH HOP", bg='slategrey', fg='white')
+        hop_btn.configure(text="FINISH HOP")
         uh["state"] = "active"
 
-        hopobj = simpledialog.askstring("Input", "Enter a messier number towards which you would hop to",
+        hopobj = simpledialog.askstring("Input", "Enter the messier object towards which you would hop to",
                                         parent=widgetframe)
+
+
         if not hopobj==None and not hopobj=='':
 
             messier = hopobj.capitalize()[0]+' '+hopobj.capitalize()[1:].strip()
@@ -707,25 +657,33 @@ def hopstart():
 
             hopobj = messier
 
+            d[hopobj]=[]
+
             # dict_label.destroy()
-            dict_label.configure(text="Hops for '{}' :".format(hopobj))
+            dict_label.configure(text="Hops for '{}': ".format(hopobj))
 
             cid = fig.canvas.mpl_connect('button_press_event', onclick)
             print("hello")
         else:
-            hop_btn.configure(text="CREATE HOP", bg='grey', fg='black')
+
+            hop_btn.configure(text="CREATE HOP")
             uh["state"] = "disabled"
             dict_label.configure(text="--<Current Hops Displayed Here>--")
 
     elif hop_btn['text'] == "FINISH HOP":
-        hop_btn.configure(text="CREATE HOP", bg='grey', fg='black')
+        hop_btn.configure(text="CREATE HOP")
+        if len(d[hopobj])>0:
+            hopinstr = simpledialog.askstring("Input", "Further Instruction for Hopping:",
+                                            parent=widgetframe)
+            d[hopobj].append(hopinstr)
+        # print(d[hopobj])
+
         uh["state"] = "disabled"
         fig.canvas.mpl_disconnect(cid)
         dict_label.configure(text ="--<Current Hops Displayed Here>--")
         resetchart()
 
     print("Done")
-    l = []
 
     pickle.dump(d, open("hop.pkl", "wb"))
 
@@ -743,7 +701,6 @@ def undohop():
 
 #############################################################################################################################################################
 
-
 object_label = Label ( widgetframe, text="Target" )
 object_label.pack(side=LEFT,padx=0, pady=5
 )
@@ -756,7 +713,7 @@ sub_btn=Button(widgetframe,text = 'Submit', command = submit)
 sub_btn.pack(side=LEFT,padx=5, pady=5
 )
 
-hop_btn= Button ( widgetframe, text="CREATE HOP", command = hopstart)
+hop_btn= Button ( widgetframe, text="CREATE HOP", bg="#E44021",fg="white",command = hopstart)
 hop_btn.pack(side=RIGHT,padx=5, pady=5
 )
 
@@ -765,32 +722,32 @@ uh.pack(side=RIGHT,padx=5, pady=5
 )
 uh["state"] = "disabled"
 
-rsc=Button(widgetframe, text="RESET CHART", command=resetchart)
+rsc=Button(widgetframe, text="RESET CHART",bg="#1c91ff",fg="white", command=resetchart)
 rsc.pack(side=LEFT,padx=5, pady=5
 )
 
-# def xyh():
+mdfact=Button(widgetframe, text="- MESSIER SIZE",bg="#FCC034", command=mdsize)
+mdfact.pack(side=LEFT,padx=5, pady=5)
+
+mifact=Button(widgetframe, text="+ MESSIER SIZE",bg="#FCC034", command=misize)
+mifact.pack(side=LEFT,padx=5, pady=5
+)
+
+prevhops=Button(widgetframe, text="HOPS CREATED", command=showhop)
+prevhops.pack(side=LEFT,padx=5, pady=5
+)
+
+# def displabel():
 #     if xy.get()==1:
 #         mplcursors.cursor(hover=True)
 #     elif xy.get()==0:
 #         mplcursors.cursor(hover=False)
 # xy = IntVar()
-# xyhover=Checkbutton(widgetframe, text='Hellow',variable=xy, onvalue=1, offvalue=0, command=xyh)
+# xyhover=Checkbutton(widgetframe, text='Label',variable=xy, onvalue=1, offvalue=0, command=displabel)
 # xyhover.pack()
 
 #############################################################################################################################################################
 
-# mplcursors.cursor(hover=True)
-# mplcursors.cursor().connect(
-#     "add", lambda sel: sel.annotation.set_text(gc_ms["ID (for resolver)"][sel.target.index]))
-
-#############################################################################################################################################################
-
-# def on_key_press(event):
-#     print("you pressed {}".format(event.key))
-#     key_press_handler(event, canvas, toolbar)
-#
-# canvas.mpl_connect("key_press_event", on_key_press)
 
 #############################################################################################################################################################
 
@@ -802,4 +759,3 @@ rsc.pack(side=LEFT,padx=5, pady=5
 # button.pack(side=tkinter.BOTTOM)
 
 mainloop()
-# plt.savefig(6,dpi=400, format="png")

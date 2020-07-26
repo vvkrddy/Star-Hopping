@@ -1,42 +1,34 @@
-# checkpoints folder
-.ipynb_checkpoints/ 
-
-query_program_input.py
-query_program_input.ipynb
-resolver_attempt.py
-helllo.ipynb
-editor_vivek1.py
-constellation_names.py
-
-editor_interface_old.py
-
-hop.pkl
-
-gui (copy).py
-scrap.py
-sniptest.py
-sniptest1.py
-stereographic_projection.py
-
+.ipynb_checkpoints
+venv
+annotrepet.py
 constellation_borders.csv
+constellation_names.py
 CrossCatalog.csv
-DsCrossCatalog.csv
-IAU-CSN.csv
-tycho-1.csv
-tycho-2.csv
-NGC.csv
-messier_objects.csv
-
 data_queries.ipynb
 data_queries.py
 data_query.ipynb
-raDecPlot.py
+DsCrossCatalog.csv
 editor.ipynb
+editor_interface_old.py
+editor_vivek1.py
+extra ei
+gui (copy).py
+helllo.ipynb
+hop.pkl
+hops.csv
+IAU-CSN.csv
+messier_objects.csv
 messierObjects.ipynb
+NGC.csv
+pickle_to_csv.py
+query_program_input.ipynb
+query_program_input.py
+raDecPlot.py
+resolver_attempt.py
 sniptest.py
+sniptest1.py
 Stereo.ipynb
-
-
-.idea/
-venv/
-
+stereographic_projection.py
+tycho-1.csv
+tycho-2.csv
+UI Inputs.pdf
