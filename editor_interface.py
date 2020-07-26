@@ -16,7 +16,6 @@ import scipy.spatial
 import re
 from tkinter import simpledialog
 from scipy import spatial
-
 ###############################################################################################################################################################
 
 ng = pd.read_csv('NGC.csv', low_memory=False)

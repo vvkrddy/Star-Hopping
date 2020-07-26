@@ -20,7 +20,7 @@ IAU-CSN.csv
 messier_objects.csv
 messierObjects.ipynb
 NGC.csv
-pickle_to_csv.py
+hops_csv.py
 query_program_input.ipynb
 query_program_input.py
 raDecPlot.py
