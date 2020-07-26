@@ -1,10 +1,10 @@
 
-![ScreenShot](Images/screenshot_editor.png).
+![ScreenShot](Images/ss_editor.png)
 
 # Interface
-Target text field takes the values of Right Ascension, Declination and Field of View; all seperated by spaces OR Messier Number and Field of View seperated by spaces<br /><br />
-For example:<br />
-45 50 20 would output a plot with center at RA 45 and DEC 50 but 45 50 would output a plot centered on messier object 'M 45' <br /> 
+
+Target text field takes the values of Right Ascension, Declination and Field of View in degrees; all seperated by spaces OR common name, messier ID, etc  <br /><br /> In the case of latter, a fixed FoV of 20 degrees is considered
+
 
 # Instructions for Creating Hops for Messiers
 Click on CREATE HOP button. Next, in the prompt, enter the messier object you would like to create hops for. The format for input is 'm' followed by number.<br />
