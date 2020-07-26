@@ -206,6 +206,10 @@ toolbar.update()
 
 canvas.get_tk_widget().place(relx=0.0, rely=0, relheight=.99-0.02, relwidth=1)
 
+#
+
+#
+
 def chart():
 
     # plots with +; 6+6
@@ -307,6 +311,9 @@ def chart():
 chart()
 
 #############################################################################################################################################################
+
+
+
 
 def resetchart():
     global s_fact
@@ -549,8 +556,6 @@ dict_label = Label (mainframe, text ="--<Current Hops Displayed Here>--")
 dict_label.pack(side=TOP,padx=0, pady=5)
 
 def onclick(event):
-    # global shift_is_held
-    # if shift_is_held:
     if event.button == 1:
         global d
         global l
@@ -570,14 +575,13 @@ def onclick(event):
         # objra = full_ty['RAJ2000'][int([full_ty['V'][ind].idxmin()][0])]
         # objde = full_ty['DEJ2000'][int([full_ty['V'][ind].idxmin()][0])]
 
-
         # markerobj = ax.scatter([objra],[objde], c='black', s=10000, marker='+')
-        # plt.draw()
-        # if hopobj in d.keys():
-        #     # if len(d[hopobj]) >=1:
-        #     #     if d[hopobj] == xi:
-        #             fig.canvas.mpl_disconnect(cid)
-        #             print("Hops for {} created".format(hopobject))
+        # # plt.draw()
+        # # if hopobj in d.keys():
+        # #     # if len(d[hopobj]) >=1:
+        # #     #     if d[hopobj] == xi:
+        # #             fig.canvas.mpl_disconnect(cid)
+        # #             print("Hops for {} created".format(hopobject))
 
         global hopobj
 
@@ -599,6 +603,7 @@ def onclick(event):
 #############################################################################################################################################################
 
 def hopstart():
+
     global dict_label
     global d
     global l
