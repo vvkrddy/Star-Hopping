@@ -28,12 +28,10 @@ ell = parse_path(
     """M 490.60742,303.18917 A 276.31408,119.52378 28.9 0 1 190.94051,274.29027 276.31408,119.52378 28.9 0 1 6.8010582,36.113705 276.31408,119.52378 28.9 0 1 306.46799,65.012613 276.31408,119.52378 28.9 0 1 490.60742,303.18917 Z""")
 ell.vertices -= ell.vertices.mean(axis=0)
 
-
-
 #############################################################################################################################################################
 
-hmag = 20
-mag = 6
+hmag = 20 # limiting magnitude for messiers; here all messiers will be plotted; recommended not to change
+mag = 6 # limiting magnitude for Tycho-1 stars;
 
 mag_ng = ng[(ng["V"] <= hmag)]
 mag_ms = ms[(ms['V (from SEDS)'] <= hmag)]
@@ -196,7 +194,6 @@ ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black', zorder=0, 
 
 ts_fact = 250
 s_fact = 250
-onemessier=10
 
 ax.set_xlim([xl, xr])
 ax.set_ylim([yb, yt])
@@ -329,21 +326,21 @@ def resetchart():
     plt.draw()
     object_entry.delete(0, END)
 
-def on_xlims_change(event_ax):
-    print("updated xlims: ", event_ax.get_xlim())
-    global xl
-    global xr
-    xl=event_ax.get_xlim()[0]
-    xr=event_ax.get_xlim()[0]
-def on_ylims_change(event_ax):
-    print("updated ylims: ", event_ax.get_ylim())
-    global yb
-    global yt
-    yb=event_ax.get_ylim()[0]
-    yt=event_ax.get_ylim()[1]
-
-ax.callbacks.connect('xlim_changed', on_xlims_change)
-ax.callbacks.connect('ylim_changed', on_ylims_change)
+# def on_xlims_change(event_ax):
+#     print("updated xlims: ", event_ax.get_xlim())
+#     global xl
+#     global xr
+#     xl=event_ax.get_xlim()[0]
+#     xr=event_ax.get_xlim()[0]
+# def on_ylims_change(event_ax):
+#     print("updated ylims: ", event_ax.get_ylim())
+#     global yb
+#     global yt
+#     yb=event_ax.get_ylim()[0]
+#     yt=event_ax.get_ylim()[1]
+#
+# ax.callbacks.connect('xlim_changed', on_xlims_change)
+# ax.callbacks.connect('ylim_changed', on_ylims_change)
 
 ident = np.array(ms['ID (for resolver)'])
 name = np.array(ms['Common Name'])
@@ -551,25 +548,6 @@ l=[]
 dict_label = Label (mainframe, text ="--<Current Hops Displayed Here>--")
 dict_label.pack(side=TOP,padx=0, pady=5)
 
-# dict_label.attributes('-topmost', 'true')
-#
-# shift_is_held = False
-#
-# def on_key_press(event):
-#     global shift_is_held
-#     if event.key == 'shift':
-#         print("Shidt heu")
-#         shift_is_held=True
-#
-# def on_key_release(event):
-#     global shift_is_held
-#     if event.key == 'shift':
-#         print("Shidt odl")
-#         shift_is_held=False
-#
-# fig.canvas.mpl_connect('key_press_event', on_key_press)
-# fig.canvas.mpl_connect('key_release_event', on_key_release)
-
 def onclick(event):
     # global shift_is_held
     # if shift_is_held:
@@ -612,8 +590,6 @@ def onclick(event):
             print("Hop started:")
         # d[ms[(ms['RAJ2000'])==l[0]]['ID (for resolver)']].append([xi,yi])
 
-        print(l)
-
         global dict_label
         # dict_label.destroy()
         dict_label.configure(text = "Hops for '{}' :{}".format(hopobj, d[hopobj]))
@@ -630,7 +606,6 @@ def hopstart():
     global cid
 
     l=[]
-    print(l)
 
     if hop_btn['text'] == "CREATE HOP":
         print("ehlp")
@@ -663,7 +638,7 @@ def hopstart():
             dict_label.configure(text="Hops for '{}': ".format(hopobj))
 
             cid = fig.canvas.mpl_connect('button_press_event', onclick)
-            print("hello")
+            print("ehlp again")
         else:
 
             hop_btn.configure(text="CREATE HOP")
@@ -676,7 +651,6 @@ def hopstart():
             hopinstr = simpledialog.askstring("Input", "Further Instruction for Hopping:",
                                             parent=widgetframe)
             d[hopobj].append(hopinstr)
-        # print(d[hopobj])
 
         uh["state"] = "disabled"
         fig.canvas.mpl_disconnect(cid)
