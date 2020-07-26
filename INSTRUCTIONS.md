@@ -21,7 +21,7 @@ CREATE HOP will prompt user to enter messier ID to which hops are to be made; pr
 
 **Data files required for this Interface can be downloaded by running the program in the link**
 [Data file](https://github.com/SahyadriDK/Hopping/tree/master/Program)
-**Download interface file from**
+<br />**Download interface file from**
 [Editor Interface](https://github.com/vvkrddy/Star-Hopping/blob/vvkrddy/editor_interface.py) 
 
 # Instructions for Creating Hops for Messiers After clicking on CREATE HOP
@@ -30,3 +30,5 @@ Messier ID is entered; hops must be recorded in the order towards the messier ob
 <br />
 **CAUTION: EVERYTIME YOU NOTICE AN UNWANTED HOP IN THE DISPLAY ABOVE THE PLOT, CLICK UNDO. THIS HAPPENS ESPECIALLY  WHILE ZOOMING/PANNING USING THE DEFAULT NAVIGATION BUTTONS AS THEY ARE RECORDED AS A MOUSE CLICKS.
 NEXT UPDATE SHOULD SEE A CHANGE IN THIS BEHAVIOUR.**
+<br /><br />
+**ANY DEVIATION IN THE BEHAVIOUR OF PROGRAM FROM WHAT"S DESCRIBED, LET ME KNOW**
