@@ -46,47 +46,47 @@ dup_cb['RAJ2000'] -= 360  # Constellation borders transform
 
 # sorting objects in messier_objects.csv and NGC.csv according to objects
 # globular clusters
-gc_ms = ms[(ms["Type"] == 'GlC')]
+gc_ms = ms[(ms["TYPE"] == 'GlC')]
 gc_ng = ng[(ng["Type"] == 'GlC')]
 # open clusters
-oc_ms = ms[(ms["Type"] == 'OpC') | (ms["Type"] == 'Cl*')]
+oc_ms = ms[(ms["TYPE"] == 'OpC') | (ms["TYPE"] == 'Cl*')]
 oc_ng = ng[(ng["Type"] == 'OpC') | (ng["Type"] == 'C+N')]
 # galaxies
-ga_ms = ms[(ms["Type"] == 'G') | (ms["Type"] == 'Sy2') | (ms["Type"] == 'IG') | (ms["Type"] == 'GiG') | (
-        ms["Type"] == 'GiP') | (ms["Type"] == 'SyG') | (ms["Type"] == 'SBG') | (ms["Type"] == 'BiC') | (
-                   ms["Type"] == 'H2G')]
+ga_ms = ms[(ms["TYPE"] == 'G') | (ms["TYPE"] == 'Sy2') | (ms["TYPE"] == 'IG') | (ms["TYPE"] == 'GiG') | (
+        ms["TYPE"] == 'GiP') | (ms["TYPE"] == 'SyG') | (ms["TYPE"] == 'SBG') | (ms["TYPE"] == 'BiC') | (
+                   ms["TYPE"] == 'H2G')]
 ga_ng = ng[(ng["Type"] == 'Gal')]
 # nebula and supernova remnant
-nb_ms = ms[(ms["Type"] == 'PN') | (ms["Type"] == 'RNe') | (ms["Type"] == 'HII') | (ms["Type"] == 'SNR')]
+nb_ms = ms[(ms["TYPE"] == 'PN') | (ms["TYPE"] == 'RNe') | (ms["TYPE"] == 'HII') | (ms["TYPE"] == 'SNR')]
 nb_ng = ng[(ng["Type"] == 'PN') | (ng["Type"] == 'Nb') | (ng["Type"] == 'Kt')]
 # other messiers
-ot_ms = ms[(ms["Type"] == 'As*') | (ms["Type"] == 'LIN') | (ms["Type"] == 'mul') | (
-        ms["Type"] == 'AGN')]
+ot_ms = ms[(ms["TYPE"] == 'As*') | (ms["TYPE"] == 'LIN') | (ms["TYPE"] == 'mul') | (
+        ms["TYPE"] == 'AGN')]
 # other ngc; stars
 ot_ng = ng[(ng["Type"] == 'D+?') | (ng["Type"] == 'C+N') | (ng["Type"] == 'Kt') | (
         ng["Type"] == '*?') | (ng["Type"] == 'Ast') | (ng["Type"] == 'Str')]
 
 # duplicated data sort by object type
 # globular clusters
-dup_gc_ms = dup_ms[(dup_ms["Type"] == 'GlC')]
+dup_gc_ms = dup_ms[(dup_ms["TYPE"] == 'GlC')]
 dup_gc_ng = dup_ng[(dup_ng["Type"] == 'GlC')]
 # open clusters
-dup_oc_ms = dup_ms[(dup_ms["Type"] == 'OpC') | (dup_ms["Type"] == 'Cl*')]
+dup_oc_ms = dup_ms[(dup_ms["TYPE"] == 'OpC') | (dup_ms["TYPE"] == 'Cl*')]
 dup_oc_ng = dup_ng[(dup_ng["Type"] == 'OpC') | (dup_ng["Type"] == 'C+N')]
 # galaxies
 dup_ga_ms = dup_ms[
-    (dup_ms["Type"] == 'G') | (dup_ms["Type"] == 'Sy2') | (dup_ms["Type"] == 'IG') | (dup_ms["Type"] == 'GiG') | (
-            dup_ms["Type"] == 'GiP') | (dup_ms["Type"] == 'SyG') | (dup_ms["Type"] == 'SBG') | (
-            dup_ms["Type"] == 'BiC') | (
-            dup_ms["Type"] == 'H2G')]
+    (dup_ms["TYPE"] == 'G') | (dup_ms["TYPE"] == 'Sy2') | (dup_ms["TYPE"] == 'IG') | (dup_ms["TYPE"] == 'GiG') | (
+            dup_ms["TYPE"] == 'GiP') | (dup_ms["TYPE"] == 'SyG') | (dup_ms["TYPE"] == 'SBG') | (
+            dup_ms["TYPE"] == 'BiC') | (
+            dup_ms["TYPE"] == 'H2G')]
 dup_ga_ng = dup_ng[(dup_ng["Type"] == 'Gal')]
 # nebula and supernova remnant
 dup_nb_ms = dup_ms[
-    (dup_ms["Type"] == 'PN') | (dup_ms["Type"] == 'RNe') | (dup_ms["Type"] == 'HII') | (dup_ms["Type"] == 'SNR')]
+    (dup_ms["TYPE"] == 'PN') | (dup_ms["TYPE"] == 'RNe') | (dup_ms["TYPE"] == 'HII') | (dup_ms["TYPE"] == 'SNR')]
 dup_nb_ng = dup_ng[(dup_ng["Type"] == 'PN') | (dup_ng["Type"] == 'Nb') | (dup_ng["Type"] == 'Kt')]
 # other messiers
 dup_ot_ms = dup_ms[
-    ( (dup_ms["Type"] == 'As*') | (dup_ms["Type"] == 'LIN') | (dup_ms["Type"] == 'mul') | (dup_ms["Type"] == 'AGN')) ]
+    ( (dup_ms["TYPE"] == 'As*') | (dup_ms["TYPE"] == 'LIN') | (dup_ms["TYPE"] == 'mul') | (dup_ms["TYPE"] == 'AGN')) ]
 # other ngc; stars
 dup_ot_ng = dup_ng[
     (dup_ng["Type"] == 'D+?') | (dup_ng["Type"] == 'C+N') | (dup_ng["Type"] == 'Kt') | (
@@ -193,8 +193,8 @@ ax.minorticks_on()
 ax.grid(which='major', color="#838383", zorder=0, alpha=.4)
 ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black', zorder=0, alpha=0.2)
 
-ts_fact = 250
-s_fact = 250
+ts_fact = 150
+s_fact = 150
 
 ax.set_xlim([xl, xr])
 ax.set_ylim([yb, yt])
@@ -307,7 +307,7 @@ def chart():
     # cursor = mplcursors.cursor([ocms, gcms, gcms1, gams, nbms, nbms1, otms, docms, dgcms, dgcms1, dgams, dnbms, dnbms1, dotms, tys], hover=True)
     cursor.connect("add", lambda sel: sel.annotation.set_text(sel.artist.annotation_names[sel.target.index]))
 
-    # plt.savefig('draw', format="png")
+    # plt.savefig('fig', format="png")
 chart()
 
 #############################################################################################################################################################
