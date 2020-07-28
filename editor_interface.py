@@ -287,7 +287,7 @@ def chart():
 
     tys = ax.scatter(mag_ty['RAJ2000'], mag_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (mag_ty['V']), edgecolor=axbgcl,
                     linewidth=1 / 10)
-    tys.annotation_names = [f'{n}, {b}\nV:{v}, {c}' for v,c, n, b in zip(ty['V'], ty['Constellation'], ty['Name'], ty['Bayer'])]
+    tys.annotation_names = [f'{n}, {b}\nV:{v}, {c}' for v,c, n, b in zip( mag_ty['V'], mag_ty['Constellation'],  mag_ty['Name'],  mag_ty['Bayer'])]
 
     # tys = ax.scatter(full_ty['RAJ2000'], full_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (full_ty['V']), edgecolor=axbgcl,
     #                 linewidth=1 / 10)
@@ -548,6 +548,7 @@ tyy=np.array(ty['DEJ2000'])
 # tyy=np.array(full_ty['DEJ2000'])
 
 tree = spatial.KDTree(list(zip(tyx,tyy)))
+# tree = spatial.cKDTree(list(zip(tyx,tyy)))
 
 l=[]
 
@@ -563,6 +564,7 @@ def onclick(event):
 
         points = np.array([xin,yin])
         dist,ind = tree.query(points, k=10)
+        # dist,ind = tree.query(points, 1)
         print(dist, ind)
         # print()
         # print([ty['V'][ind].idxmin()])
