@@ -5,8 +5,13 @@ hop_file = open("hop.pkl", "rb")
 d = pickle.load(hop_file)
 ms = pd.read_csv('messier_objects.csv', low_memory=False)
 ty = pd.read_csv('tycho-1.csv', low_memory=False)
+ty['Bayer'] = ty['Bayer'].fillna('-')
+
+print(d)
 
 d = {key:value for key,value in d.items() if value != []}
+
+print(d)
 
 # for key, value in d.items():
 #     print(key, value)
@@ -26,11 +31,15 @@ for i in range(len(messier)):
     for j in range(len(d[messier[i]])-1):
         df[j+1][df.index[df['Messier'] == messier[i]]] = ','.join(str(v) for v in d[messier[i]][j])
         df[j+1][df.index[df['Messier'] == messier[i]]] = df[j+1][df.index[df['Messier'] == messier[i]]].astype(str)+','+(ty['Name'][ty.index[ty["RAJ2000"]==d[messier[i]][j][0]]].values)
+        df[j+1][df.index[df['Messier'] == messier[i]]] = df[j+1][df.index[df['Messier'] == messier[i]]].astype(str)+','+(ty['Bayer'][ty.index[ty["RAJ2000"]==d[messier[i]][j][0]]].values)
     messier_coord=[float(ms['RAJ2000'][ms.index[ms['ID (for resolver)']==messier[i]]]), float(ms['DEJ2000'][ms.index[ms['ID (for resolver)']==messier[i]]])]
     df[len(d[messier[i]])][df.index[df['Messier'] == messier[i]]] = ','.join(str(v) for v in messier_coord)
     if d[messier[i]][-1] == None or d[messier[i]][-1] =='':
         df['Instruction'][df.index[df['Messier'] == messier[i]]] = '-'
     else:
         df['Instruction'][df.index[df['Messier'] == messier[i]]] = d[messier[i]][-1]
+
+print(df)
+
 
 df.to_csv("hops.csv", index=False)
