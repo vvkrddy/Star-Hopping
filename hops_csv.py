@@ -6,12 +6,10 @@ d = pickle.load(hop_file)
 ms = pd.read_csv('messier_objects.csv', low_memory=False)
 ty = pd.read_csv('tycho-1.csv', low_memory=False)
 ty['Bayer'] = ty['Bayer'].fillna('-')
-
-print(d)
+# print(d)
 
 d = {key:value for key,value in d.items() if value != []}
-
-print(d)
+# print(d)
 
 # for key, value in d.items():
 #     print(key, value)
@@ -26,7 +24,6 @@ messier = list(d.keys())
 df['Messier']=messier
 # print(df)
 
-
 for i in range(len(messier)):
     for j in range(len(d[messier[i]])-1):
         df[j+1][df.index[df['Messier'] == messier[i]]] = ','.join(str(v) for v in d[messier[i]][j])
@@ -39,7 +36,6 @@ for i in range(len(messier)):
     else:
         df['Instruction'][df.index[df['Messier'] == messier[i]]] = d[messier[i]][-1]
 
-print(df)
-
+# print(df)
 
 df.to_csv("hops.csv", index=False)
