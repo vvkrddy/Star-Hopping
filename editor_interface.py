@@ -151,6 +151,8 @@ oc_ms = oc_ms.reset_index(drop=True)
 ga_ms = ga_ms.reset_index(drop=True)
 nb_ms = nb_ms.reset_index(drop=True)
 ot_ms = ot_ms.reset_index(drop=True)
+mag_ty = mag_ty.reset_index(drop=True)
+
 
 # ty_names=ty[(ty['Name']!='-')]
 # ty_bayer=ty.dropna(subset=['Bayer'])
@@ -305,8 +307,7 @@ def chart():
     # cursor = mplcursors.cursor([ocms, gcms, gcms1, gams, nbms, nbms1, otms, docms, dgcms, dgcms1, dgams, dnbms, dnbms1, dotms, tys], hover=True)
     cursor.connect("add", lambda sel: sel.annotation.set_text(sel.artist.annotation_names[sel.target.index]))
 
-    # plt.savefig('6', dpi=400, format="png")
-
+    # plt.savefig('draw', format="png")
 chart()
 
 #############################################################################################################################################################
@@ -542,13 +543,12 @@ def showhop():
 
 print(d)
 
-tyx=np.array(ty['RAJ2000'])
-tyy=np.array(ty['DEJ2000'])
+tyx=np.array(mag_ty['RAJ2000'])
+tyy=np.array(mag_ty['DEJ2000'])
 # tyx=np.array(full_ty['RAJ2000'])
 # tyy=np.array(full_ty['DEJ2000'])
 
 tree = spatial.KDTree(list(zip(tyx,tyy)))
-# tree = spatial.cKDTree(list(zip(tyx,tyy)))
 
 l=[]
 
@@ -562,17 +562,20 @@ def onclick(event):
         xin, yin = event.xdata, event.ydata
         print(xin,yin)
 
-        points = np.array([xin,yin])
-        dist,ind = tree.query(points, k=10)
-        # dist,ind = tree.query(points, 1)
-        print(dist, ind)
+        point = np.array([xin,yin])
+        # dist,ind = tree.query(point, k=10)
+        ind = tree.query_ball_point(point, .5)
+        print(ind)
         # print()
         # print([ty['V'][ind].idxmin()])
         # print(ind, ty['RAJ2000'][int([ty['V'][ind].idxmin()][0])])
-        global markerobj
+        # global markerobj
 
-        objra = ty['RAJ2000'][int([ty['V'][ind].idxmin()][0])]
-        objde = ty['DEJ2000'][int([ty['V'][ind].idxmin()][0])]
+        # objra = mag_ty['RAJ2000'][int([mag_ty['V'][ind].idxmin()][0])]
+        # objde = mag_ty['DEJ2000'][int([mag_ty['V'][ind].idxmin()][0])]
+        objra = mag_ty['RAJ2000'][mag_ty['V'][ind].idxmax()]
+        objde = mag_ty['DEJ2000'][mag_ty['V'][ind].idxmax()]
+        print(type(objra))
         # objra = full_ty['RAJ2000'][int([full_ty['V'][ind].idxmin()][0])]
         # objde = full_ty['DEJ2000'][int([full_ty['V'][ind].idxmin()][0])]
 
