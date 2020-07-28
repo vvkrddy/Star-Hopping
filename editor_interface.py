@@ -575,7 +575,6 @@ def onclick(event):
         # objde = mag_ty['DEJ2000'][int([mag_ty['V'][ind].idxmin()][0])]
         objra = mag_ty['RAJ2000'][mag_ty['V'][ind].idxmax()]
         objde = mag_ty['DEJ2000'][mag_ty['V'][ind].idxmax()]
-        print(type(objra))
         # objra = full_ty['RAJ2000'][int([full_ty['V'][ind].idxmin()][0])]
         # objde = full_ty['DEJ2000'][int([full_ty['V'][ind].idxmin()][0])]
 
