@@ -189,11 +189,15 @@ fig, ax = plt.subplots(1, 1, figsize=(15, 10))
 ax.set_aspect(1)
 axbgcl="grey" # axis background color
 fig.patch.set_facecolor('slategrey')
-ax.set_facecolor('gainsboro')
-ax.set_axisbelow(True)
-ax.minorticks_on()
-ax.grid(which='major', color="#838383", zorder=0, alpha=.4)
-ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black', zorder=0, alpha=0.2)
+
+def axclr():
+    ax.set_facecolor('gainsboro')
+    ax.set_axisbelow(True)
+    ax.minorticks_on()
+    ax.grid(which='major', color="#838383", zorder=0, alpha=.4)
+    ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black', zorder=0, alpha=0.2)
+
+axclr()
 
 ts_fact = 150
 s_fact = 150
@@ -377,6 +381,7 @@ def resetchart():
     xl = 0
     yb = -90
     yt = 90
+    axclr()
     ax.set_xlim([xl, xr])
     ax.set_ylim([yb, yt])
     xy.set(0)
@@ -427,6 +432,7 @@ def submit():
             yb = dec - fov / 2 - fov / 10
             yt = dec + fov / 2 + fov / 10
             plt.cla()
+            axclr()
             ax.set_xlim([xl, xr])
             ax.set_ylim([yb, yt])
             if xy.get() == 1:
@@ -447,6 +453,7 @@ def submit():
             yb = dec - fov / 2 - fov / 10
             yt = dec + fov / 2 + fov / 10
             plt.cla()
+            axclr()
             ax.set_xlim([xl, xr])
             ax.set_ylim([yb, yt])
             if xy.get() == 1:
@@ -475,6 +482,7 @@ def submit():
                 yb = dec - fov / 2 - fov / 10
                 yt = dec + fov / 2 + fov / 10
                 plt.cla()
+                axclr()
                 ax.set_xlim([xl, xr])
                 ax.set_ylim([yb, yt])
                 if xy.get() == 1:
@@ -554,6 +562,7 @@ def misize():
     yb = ax.get_ylim()[0]
     yt = ax.get_ylim()[1]
     plt.cla()
+    axclr()
     print(xl,xr,yb,yt)
     if xy.get()==1:
         draw_sticks()
@@ -574,6 +583,7 @@ def mdsize():
     yb = ax.get_ylim()[0]
     yt = ax.get_ylim()[1]
     plt.cla()
+    axclr()
     print(xl,xr,yb,yt)
     if xy.get()==1:
         draw_sticks()
@@ -793,7 +803,7 @@ def sticks():
         yb = ax.get_ylim()[0]
         yt = ax.get_ylim()[1]
         plt.cla()
-
+        axclr()
         ax.set_xlim([xl, xr])
         ax.set_ylim([yb, yt])
         draw_sticks()
@@ -811,7 +821,7 @@ def sticks():
         yb = ax.get_ylim()[0]
         yt = ax.get_ylim()[1]
         plt.cla()
-
+        axclr()
         ax.set_xlim([xl, xr])
         ax.set_ylim([yb, yt])
         chart()
