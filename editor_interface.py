@@ -16,6 +16,8 @@ import scipy.spatial
 import re
 from tkinter import simpledialog
 from scipy import spatial
+import ast
+
 ###############################################################################################################################################################
 
 ng = pd.read_csv('NGC.csv', low_memory=False)
@@ -166,7 +168,7 @@ mag_ty = mag_ty.reset_index(drop=True)
 root = Tk()
 root.wm_title("Editor _ Star Hopping")
 root.configure(bg='black')
-root.geometry("1000x600+400+400")
+root.geometry("1200x600+400+400")
 
 mainframe = Frame(root, relief=RAISED, borderwidth=1)
 mainframe.place( relx = 0, rely = .1, relwidth=1, relheight=0.9)
@@ -208,8 +210,58 @@ toolbar.update()
 canvas.get_tk_widget().place(relx=0.0, rely=0, relheight=.99-0.02, relwidth=1)
 
 #
+file = open('constellation_lines_simplified.dat')
+lines = file.readlines()[56::]
+cond = np.where([x.isalpha() for x in lines])[0]
+constellation = [lines[i] for i in cond]
+find_res = np.array([x.find('[') for x in lines])
+pos = np.where(find_res != -1)[0]
+points = [lines[i].strip('\n') for i in pos]
+points = [ast.literal_eval(items) for items in points]
+# print(len(points))
 
+ra = ty['RAJ2000']
+dec = ty['DEJ2000']
+hip = ty['HIP']
+hip = [x for x in hip]
 #
+
+def draw_sticks():
+    for i in range(len(points)):
+        lst = points[i]
+        ra_line = []
+        dec_line = []
+        for items in lst:
+            index = hip.index(float(items))
+            if len(ra_line) != 0:
+                if abs(ra[index] - ra_line[-1]) > 300 and -75 < dec[index] < 75:
+                    if ra_line[-1] > 300:
+                        pred_slope = (dec[index] - dec_line[-1]) / 360 + (ra[index] - ra_line[-1])
+                        ra_line.append(0)
+                        dec_line.append(dec_line[-1] + pred_slope * (360 - ra_line[-1]))
+                        new_dec = dec_line[-1] + pred_slope * (360 - ra_line[-1])
+                        ra_line = []
+                        dec_line = []
+                        ra_line.append(0)
+                        dec_line.append(new_dec)
+                        p = ax.plot(ra_line, dec_line, '-', color="green", linewidth=2.5, alpha=0.2, zorder=0)
+                    elif ra_line[-1] < 60:
+                        pred_slope = (dec[index] - dec_line[-1]) / (ra[index] - ra_line[-1]) - 360
+                        ra_line.append(0)
+                        dec_line.append(dec_line[-1] + pred_slope * (-ra_line[-1]))
+                        new_dec = dec_line[-1] + pred_slope * (-ra_line[-1])
+                        q = ax.plot(ra_line, dec_line, '-', color="green", linewidth=2.5, alpha=0.1, zorder=0)
+                        ra_line = []
+                        dec_line = []
+                        ra_line.append(359)
+                        dec_line.append(new_dec)
+                else:
+                    ra_line.append(ra[index])
+                    dec_line.append(dec[index])
+            else:
+                ra_line.append(ra[index])
+                dec_line.append(dec[index])
+        r = ax.plot(ra_line, dec_line, '-', color="green", linewidth=2.5, alpha=0.2, zorder=0)
 
 def chart():
 
@@ -313,8 +365,6 @@ chart()
 #############################################################################################################################################################
 
 
-
-
 def resetchart():
     global s_fact
     s_fact = 250
@@ -329,6 +379,7 @@ def resetchart():
     yt = 90
     ax.set_xlim([xl, xr])
     ax.set_ylim([yb, yt])
+    xy.set(0)
     chart()
     plt.draw()
     object_entry.delete(0, END)
@@ -378,6 +429,8 @@ def submit():
             plt.cla()
             ax.set_xlim([xl, xr])
             ax.set_ylim([yb, yt])
+            if xy.get() == 1:
+                draw_sticks()
             chart()
             plt.draw()
             object_entry.delete(0, END)
@@ -396,6 +449,8 @@ def submit():
             plt.cla()
             ax.set_xlim([xl, xr])
             ax.set_ylim([yb, yt])
+            if xy.get() == 1:
+                draw_sticks()
             chart()
             plt.draw()
             mb.showinfo('Processed')
@@ -422,6 +477,8 @@ def submit():
                 plt.cla()
                 ax.set_xlim([xl, xr])
                 ax.set_ylim([yb, yt])
+                if xy.get() == 1:
+                    draw_sticks()
                 chart()
                 plt.draw()
                 object_entry.delete(0, END)
@@ -498,6 +555,8 @@ def misize():
     yt = ax.get_ylim()[1]
     plt.cla()
     print(xl,xr,yb,yt)
+    if xy.get()==1:
+        draw_sticks()
     ax.set_xlim([xl, xr])
     ax.set_ylim([yb, yt])
     s_fact *= 4
@@ -516,6 +575,8 @@ def mdsize():
     yt = ax.get_ylim()[1]
     plt.cla()
     print(xl,xr,yb,yt)
+    if xy.get()==1:
+        draw_sticks()
     ax.set_xlim([xl, xr])
     ax.set_ylim([yb, yt])
     if s_fact>250:
@@ -704,6 +765,10 @@ uh.pack(side=RIGHT,padx=5, pady=5
 )
 uh["state"] = "disabled"
 
+prevhops=Button(widgetframe, text="HOPS CREATED", command=showhop)
+prevhops.pack(side=RIGHT,padx=5, pady=5
+)
+
 rsc=Button(widgetframe, text="RESET CHART",bg="#1c91ff",fg="white", command=resetchart)
 rsc.pack(side=LEFT,padx=5, pady=5
 )
@@ -715,9 +780,51 @@ mifact=Button(widgetframe, text="+ MESSIER SIZE",bg="#FCC034", command=misize)
 mifact.pack(side=LEFT,padx=5, pady=5
 )
 
-prevhops=Button(widgetframe, text="HOPS CREATED", command=showhop)
-prevhops.pack(side=LEFT,padx=5, pady=5
-)
+
+def sticks():
+    if xy.get()==1:
+        # global s_fact
+        # global xl
+        # global xr
+        # global yb
+        # global yt
+        xl = ax.get_xlim()[0]
+        xr = ax.get_xlim()[1]
+        yb = ax.get_ylim()[0]
+        yt = ax.get_ylim()[1]
+        plt.cla()
+
+        ax.set_xlim([xl, xr])
+        ax.set_ylim([yb, yt])
+        draw_sticks()
+        chart()
+        plt.draw()
+    elif xy.get()==0:
+        draw_sticks()
+        # global s_fact
+        # global xl
+        # global xr
+        # global yb
+        # global yt
+        xl = ax.get_xlim()[0]
+        xr = ax.get_xlim()[1]
+        yb = ax.get_ylim()[0]
+        yt = ax.get_ylim()[1]
+        plt.cla()
+
+        ax.set_xlim([xl, xr])
+        ax.set_ylim([yb, yt])
+        chart()
+        plt.draw()
+
+
+xy = IntVar()
+xyhover = Checkbutton(widgetframe, text='Show Constellation Sticks',variable=xy, onvalue=1, offvalue=0, command=sticks)
+xyhover.pack(side=LEFT)
+#
+
+
+
 
 # def displabel():
 #     if xy.get()==1:
