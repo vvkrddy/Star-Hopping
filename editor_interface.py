@@ -31,14 +31,11 @@ ell.vertices -= ell.vertices.mean(axis=0)
 
 #############################################################################################################################################################
 
-hmag = 20 # limiting magnitude for messiers; here all messiers will be plotted; recommended not to change
 mag = 6 # limiting magnitude for Tycho-1 stars;
 
-mag_ng = ng[(ng["V"] <= hmag)]
-mag_ms = ms[(ms['V (from SEDS)'] <= hmag)]
 mag_ty = ty[(ty['V'] <= mag)]  # Tycho
-dup_ng = mag_ng.copy(deep=True)  # NGC
-dup_ms = mag_ms.copy(deep=True)  # Messier
+dup_ng = ng.copy(deep=True)  # NGC
+dup_ms = ms.copy(deep=True)  # Messier
 dup_ty = mag_ty.copy(deep=True)  # Tycho
 dup_cb = cb.copy(deep=True)  # Constellation borders
 dup_ng['RAJ2000'] -= 360  # NGC transform
@@ -644,8 +641,8 @@ def onclick(event):
 
         # objra = mag_ty['RAJ2000'][int([mag_ty['V'][ind].idxmin()][0])]
         # objde = mag_ty['DEJ2000'][int([mag_ty['V'][ind].idxmin()][0])]
-        objra = mag_ty['RAJ2000'][mag_ty['V'][ind].idxmax()]
-        objde = mag_ty['DEJ2000'][mag_ty['V'][ind].idxmax()]
+        objra = mag_ty['RAJ2000'][mag_ty['V'][ind].idxmin()]
+        objde = mag_ty['DEJ2000'][mag_ty['V'][ind].idxmin()]
         # objra = full_ty['RAJ2000'][int([full_ty['V'][ind].idxmin()][0])]
         # objde = full_ty['DEJ2000'][int([full_ty['V'][ind].idxmin()][0])]
 
