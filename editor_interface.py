@@ -165,7 +165,7 @@ mag_ty = mag_ty.reset_index(drop=True)
 root = Tk()
 root.wm_title("Editor _ Star Hopping")
 root.configure(bg='black')
-root.geometry("1200x600+400+400")
+root.geometry("1200x700+200+200")
 
 mainframe = Frame(root, relief=RAISED, borderwidth=1)
 mainframe.place( relx = 0, rely = .1, relwidth=1, relheight=0.9)
@@ -341,7 +341,7 @@ def chart():
 
 
     tys = ax.scatter(mag_ty['RAJ2000'], mag_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (mag_ty['V']), edgecolor=axbgcl,
-                    linewidth=1 / 10)
+                    linewidth=1/10)
     tys.annotation_names = [f'{n}, {b}\nV:{v}, {c}' for v,c, n, b in zip( mag_ty['V'], mag_ty['Constellation'],  mag_ty['Name'],  mag_ty['Bayer'])]
 
     # tys = ax.scatter(full_ty['RAJ2000'], full_ty['DEJ2000'], c='black', s=ts_fact / 2.5 ** (full_ty['V']), edgecolor=axbgcl,
@@ -686,7 +686,7 @@ def hopstart():
     if hop_btn['text'] == "CREATE HOP":
         print("ehlp")
 
-        hop_btn.configure(text="FINISH HOP")
+        hop_btn.configure(text="FINISH HOP", bg="red")
         uh["state"] = "active"
 
         hopobj = simpledialog.askstring("Input", "Enter the messier object towards which you would hop to",
@@ -717,12 +717,12 @@ def hopstart():
             print("ehlp again")
         else:
 
-            hop_btn.configure(text="CREATE HOP")
+            hop_btn.configure(text="CREATE HOP",bg="SpringGreen2")
             uh["state"] = "disabled"
             dict_label.configure(text="--<Current Hops Displayed Here>--")
 
     elif hop_btn['text'] == "FINISH HOP":
-        hop_btn.configure(text="CREATE HOP")
+        hop_btn.configure(text="CREATE HOP",bg="SpringGreen2")
         if len(d[hopobj])>0:
             hopinstr = simpledialog.askstring("Input", "Further Instruction for Hopping:",
                                             parent=widgetframe)
@@ -733,9 +733,12 @@ def hopstart():
         dict_label.configure(text ="--<Current Hops Displayed Here>--")
         resetchart()
 
+
+
     print("Done")
 
     pickle.dump(d, open("hop.pkl", "wb"))
+
 
 def undohop():
     global hopobj
@@ -763,7 +766,7 @@ sub_btn=Button(widgetframe,text = 'Submit', command = submit)
 sub_btn.pack(side=LEFT,padx=5, pady=5
 )
 
-hop_btn= Button ( widgetframe, text="CREATE HOP", bg="#E44021",fg="white",command = hopstart)
+hop_btn= Button ( widgetframe, text="CREATE HOP", bg="SpringGreen2",fg="black",command = hopstart)
 hop_btn.pack(side=RIGHT,padx=5, pady=5
 )
 
@@ -847,11 +850,21 @@ xyhover.pack(side=LEFT)
 
 #############################################################################################################################################################
 
-# def _quit():
-#     root.quit()     # stops mainloop
-#     root.destroy()  # this is necessary on Windows to prevent
-#                     # Fatal Python Error: PyEval_RestoreThread: NULL tstate
-# button = tkinter.Button(master=root, text="Quit", command=_quit)
-# button.pack(side=tkinter.BOTTOM)
+def _quit():
+    global d
+    d = {key: value for key, value in d.items() if value != []}
+    messier = list(d.keys())
+    for i in range(len(messier)):
+        messier_coord = [float(ms['RAJ2000'][ms.index[ms['ID (for resolver)'] == messier[i]]]),
+                         float(ms['DEJ2000'][ms.index[ms['ID (for resolver)'] == messier[i]]])]
+        if not d[messier[i]][-2] == messier_coord:
+            d[messier[i]].insert(-1, messier_coord)
+    pickle.dump(d, open("hop.pkl", "wb"))
+
+    root.quit()     # stops mainloop
+    root.destroy()  # this is necessary on Windows to prevent
+                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+button = Button(master=root, text="PRESS THIS RED BUTTON BEFORE QUITTING THE SESSION", command=_quit, bg="red",fg="white")
+button.pack(side=BOTTOM)
 
 mainloop()
