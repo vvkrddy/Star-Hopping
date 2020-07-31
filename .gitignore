@@ -1,35 +1,38 @@
 .ipynb_checkpoints
+#Images
 venv
-annotrepet.py
+.gitignore
+autohop.pkl
+autohops.csv
+autohops.py
+autohops_csv.py
 constellation_borders.csv
+constellation_lines_simplified.dat
 constellation_names.py
 CrossCatalog.csv
-data_queries.ipynb
-data_queries.py
-data_query.ipynb
 DsCrossCatalog.csv
-editor.ipynb
-editor_interface_old.py
-editor_vivek1.py
-extra ei
-gui (copy).py
-helllo.ipynb
+extra code
 hop.pkl
 hops.csv
+hops_csv.py
 IAU-CSN.csv
+#INSTRUCTIONS.md
 messier_objects.csv
 messierObjects.ipynb
+misc.ipynb
 NGC.csv
-hops_csv.py
-query_program_input.ipynb
 query_program_input.py
+raDecPlot.ipynb
 raDecPlot.py
+#README.md
+requirements.txt
 resolver_attempt.py
 sniptest.py
 sniptest1.py
 Stereo.ipynb
-stereographic_projection.py
+#the_editor.py
 tycho-1.csv
 tycho-2.csv
-UI Inputs.pdf
-.idea
+tycho_1.csv
+Untitled.ipynb
+#validation.ipynb
