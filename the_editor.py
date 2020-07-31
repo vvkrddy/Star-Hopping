@@ -40,7 +40,7 @@ dup_ty = mag_ty.copy(deep=True)  # Tycho
 dup_cb = cb.copy(deep=True)  # Constellation borders
 dup_ng['RAJ2000'] -= 360  # NGC transform
 dup_ms['RAJ2000'] -= 360  # Messier transform
-dup_ty['RAJ2000'] -= 360  # Tycho transfor9
+dup_ty['RAJ2000'] -= 360  # Tycho transform
 dup_cb['RAJ2000'] -= 360  # Constellation borders transform
 
 # sorting objects in messier_objects.csv and NGC.csv according to type
