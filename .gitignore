@@ -1,7 +1,7 @@
 .ipynb_checkpoints
 #Images
 venv
-.gitignore
+#.gitignore
 autohop.pkl
 autohops.csv
 autohops.py
@@ -13,10 +13,9 @@ CrossCatalog.csv
 DsCrossCatalog.csv
 extra code
 hop.pkl
+#hop-csv.py
 hops.csv
-hops_csv.py
 IAU-CSN.csv
-#INSTRUCTIONS.md
 messier_objects.csv
 messierObjects.ipynb
 misc.ipynb
@@ -30,9 +29,9 @@ resolver_attempt.py
 sniptest.py
 sniptest1.py
 Stereo.ipynb
-#the_editor.py
+#the-editor.py
 tycho-1.csv
 tycho-2.csv
-tycho_1.csv
 Untitled.ipynb
+#USERMANUAL.md
 #validation.ipynb
