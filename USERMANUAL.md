@@ -22,7 +22,7 @@ CREATE HOP will prompt user to enter messier ID to which hops are to be made; pr
 **Data files required for this Interface can be downloaded by running the program in the link**
 [Data file](https://github.com/SahyadriDK/Hopping/tree/master/Program)
 <br />**Download interface file from**
-[Editor Interface](https://github.com/vvkrddy/Star-Hopping/blob/vvkrddy/editor_interface.py) 
+[Editor Interface](https://github.com/vvkrddy/Star-Hopping/blob/vvkrddy/the-editor.py) 
 
 # Instructions for Creating Hops for Messiers After clicking on CREATE HOP
 Messier ID is entered; hops must be recorded in the order towards the messier object minus the messier object.
