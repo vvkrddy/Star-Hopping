@@ -1,4 +1,5 @@
 .ipynb_checkpoints
+.idea
 #Images
 venv
 #.gitignore
@@ -7,7 +8,7 @@ autohops.csv
 autohops.py
 autohops_csv.py
 constellation_borders.csv
-constellation_lines_simplified.dat
+#constellation_lines_simplified.dat
 constellation_names.py
 CrossCatalog.csv
 DsCrossCatalog.csv
@@ -15,12 +16,12 @@ extra code
 hop.pkl
 #hop-csv.py
 hops.csv
-IAU-CSN.csv
+#IAU-CSN.csv
 messier_objects.csv
 messierObjects.ipynb
 misc.ipynb
 NGC.csv
-query_program_input.py
+#query_program_input.py
 raDecPlot.ipynb
 raDecPlot.py
 #README.md
