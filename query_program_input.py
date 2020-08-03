@@ -77,16 +77,23 @@ result_table.add_column(internal_id, name="Internal ID Number", index=0)
 link = requests.get('https://en.wikipedia.org/wiki/Messier_object')
 soup = BeautifulSoup(link.content,'html.parser')
 table = soup.find_all('table',attrs={"class":"wikitable sortable"})[0]
-names = []
+names = []    
 name_rows = table.find_all('td')[1::9]
 for items in name_rows:
     if items.get_text()=='–\n':
         names.append('-')
     else:
         names.append(items.get_text().strip('\n'))
+nURL = 'https://en.wikipedia.org/wiki/Messier_object'
+npage = requests.get(nURL)
+nsoup = BeautifulSoup(npage.content, 'html.parser')
+ngc=[]
+for i in range(23,1013,9):
+    ngc.append(nsoup.find_all('td')[i].get_text().strip())
 result_table.add_column(names,name="Common Name",index=3)
 result_table.add_column(mag,name="V (from SEDS)",index=8)
-
+result_table.add_column(ngc, name="NGC", index=2)
+messier_table = result_table
 
 result_table.write("messier_objects.csv", format="csv", overwrite="True")# creates a csv file
 
@@ -106,13 +113,26 @@ result_table['Type'] = np.array([
                                     for x in result_table['Type']])
 result_table['Name'] = [" ".join(x.split()) for x in result_table['Name']]
 
-# A dding constellation names
+# Adding constellation names
 coords = SkyCoord(result_table['_RAJ2000'], result_table['_DEJ2000'], unit="deg")
 const = coords.get_constellation()
 const = ['Bootes' if x == 'Boötes' else x for x in const]  # fixing for the unicode problem
 const_abr = coords.get_constellation(short_name="True")
 result_table.add_column(const, name="Constellation", index=2)
 
+result_table.add_column(np.zeros(len(result_table)), name="Messier")
+ngc_desig=[]
+for x in messier_table['NGC']:
+    ngc_desig.append(x.split(',')[0].strip())
+    try:
+        ngc_desig.append(x.split(',')[1].strip())
+    except:
+        None
+for x in ngc_desig:
+    for i in range(len(result_table)):
+        if x == result_table['Name'][i]:
+            result_table['Messier'][i]=1
+            
 # Adding an internal id number
 otype = result_table['Type']
 internal_id = [
@@ -149,23 +169,23 @@ ntable['Common Name'] = ntable.Name.map(ccat.set_index('Name').Object, na_action
 ntable['Common Name'] = ntable['Common Name'].fillna('-')
 
 #Changing the coordinates of messier objects to refernece SIMBAD for uniformity
-find_res = np.array([x.find('M') for x in ntable['Common Name']])
-pos = np.where(find_res!=-1)[0]
-rd = [x for x in ntable['Name'][pos]]
-Simbad.TIME_OUT = -1
-Simbad.reset_votable_fields()
-Simbad.ROW_LIMIT = 100000
-Simbad.remove_votable_fields('coordinates')
-Simbad.add_votable_fields('ra(d;A;ICRS;J2000;2000)', 'dec(d;D;ICRS;J2000;2000)')
-names = np.array(rd)
-radec = Simbad.query_objects(names)
-ra = [x for x in radec['RA_d_A_ICRS_J2000_2000']]
-dec = [x for x in radec['DEC_d_D_ICRS_J2000_2000']]
-Simbad.reset_votable_fields()
-pos = [x for x in pos]
+#find_res = np.array([x.find('M') for x in ntable['Common Name']])
+#pos = np.where(find_res!=-1)[0]
+#rd = [x for x in ntable['Name'][pos]]
+#Simbad.TIME_OUT = -1
+#Simbad.reset_votable_fields()
+#Simbad.ROW_LIMIT = 100000
+#Simbad.remove_votable_fields('coordinates')
+#Simbad.add_votable_fields('ra(d;A;ICRS;J2000;2000)', 'dec(d;D;ICRS;J2000;2000)')
+#names = np.array(rd)
+#radec = Simbad.query_objects(names)
+#ra = [x for x in radec['RA_d_A_ICRS_J2000_2000']]
+#dec = [x for x in radec['DEC_d_D_ICRS_J2000_2000']]
+#Simbad.reset_votable_fields()
+#pos = [x for x in pos]
 
-ntable.loc[pos,'RAJ2000'] = ra
-ntable.loc[pos,'DEJ2000'] = dec
+#ntable.loc[pos,'RAJ2000'] = ra
+#ntable.loc[pos,'DEJ2000'] = dec
 
 ntable.to_csv('NGC.csv')
 ntable = Table.read('NGC.csv')
@@ -202,7 +222,7 @@ for items in hd_missing:
         hip.append(ident_table[ind][0].split()[1])
     else:
         hip.append('0')
-
+        
 cross_catalog['HIP'][miss_index] = hip
 cross_catalog.write("CrossCatalog.csv", format='csv', overwrite="True")
 
