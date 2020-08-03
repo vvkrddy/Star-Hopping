@@ -1,21 +1,22 @@
 .ipynb_checkpoints
+Images
 .idea
-#Images
 venv
 #.gitignore
+Algo-illus.png
 autohop.pkl
 autohops.csv
 autohops.py
 autohops_csv.py
 constellation_borders.csv
-constellation_lines_simplified.dat
+#constellation_lines_simplified.dat
 constellation_names.py
 CrossCatalog.csv
 DsCrossCatalog.csv
 #envrequirements.txt
 extra code
 hop.pkl
-#hop-csv.py
+hop-csv.py
 hops.csv
 IAU-CSN.csv
 messier_objects.csv
